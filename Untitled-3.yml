@@ -1,0 +1,23 @@
+---
+- name: Send email
+  hosts: localhost
+  gather_facts: no
+  vars:
+    group_name: "{{ item.0 }}"
+    group_hosts: "{{ item.1.ansible_facts.grouped_hosts[group_name] }}"
+    tech_owners: "{{ item.1.ansible_facts.hostvars[hostvars.inventory_hostname].tech_owners }}"
+    biz_owners: "{{ item.1.ansible_facts.hostvars[hostvars.inventory_hostname].biz_owners }}"
+
+  tasks:
+    - name: Send email using smtplib (Python)
+      community.general.smtp:
+        server: "smtp.example.com"  # Replace with your SMTP server
+        port: 587  # Replace with your SMTP port
+        tls: yes
+        username: "your_username"  # Replace with your SMTP username
+        password: "your_password"  # Replace with your SMTP password
+        from: "your_email@example.com"  # Replace with your email
+        to: "{{ item.tech_owners }}"
+        subject: "IT Service {{ group_name }} Update"
+        body: "The following hosts are associated with the IT service {{ group_name }}:\n\n{{ group_hosts|join('\n') }}"
+        cc: "{{ item.biz_owners }}"
