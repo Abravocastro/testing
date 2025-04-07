@@ -1,20 +1,20 @@
 ---
 - name: Group hosts by it_service and send emails
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     groups_to_process: []
 
   tasks:
     - name: Gather host information
-      add_host:
+      ansible.builtin.add_host:
         name: "{{ inventory_hostname }}"
         groupname: "{{ item }}"
       loop: "{{ groups_to_process }}"
       when: "'undefined' not in item"
 
     - name: Group hosts by it_service
-      set_fact:
+      ansible.builtin.set_fact:
         groups_to_process: >-
           {{ groups_to_process + [
               (item.0|default('')) + '_' + item.1.it_service|default('')
@@ -24,11 +24,11 @@
       register: grouped_hosts
 
     - name: Debug groups and associated hosts
-      debug:
+      ansible.builtin.debug:
         var: grouped_hosts
 
     - name: Send email for each group
-      include_tasks: send_email.yml
+      ansible.builtin.include_tasks: send_email.yml
       loop: "{{ grouped_hosts.results }}"
       loop_control:
         label: "{{ item.0 }}"
