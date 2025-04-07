@@ -8,7 +8,7 @@
     - name: Group hosts based on their it_service value
       ansible.builtin.group_by:
         key: "{{ _key_ }}"
-      loop: "{{ groups['all'] |flatten(levels=1) }}"
+      loop: "{{ groups['all'] | flatten(levels=1) }}"
     - name: Print groups
       ansible.builtin.debug:
         msg: "{{ groups }}"
