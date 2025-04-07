@@ -27,8 +27,8 @@
       ansible.builtin.debug:
         var: grouped_hosts
 
-    - name: Send email for each group
-      ansible.builtin.include_tasks: send_email.yml
-      loop: "{{ grouped_hosts.results }}"
-      loop_control:
-        label: "{{ item.0 }}"
+#    - name: Send email for each group
+#      ansible.builtin.include_tasks: send_email.yml
+#      loop: "{{ grouped_hosts.results }}"
+#      loop_control:
+#        label: "{{ item.0 }}"

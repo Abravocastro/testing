@@ -12,9 +12,10 @@
     - name: Print groups
       ansible.builtin.debug:
         msg: "{{ groups }}"
-    - name: Send one email per group using mail module
-      community.general.mail:
-        subject: Ansible-report
-        body: Here is the list of servers for the {{ group_names }} group
-        to: "{{ tech_owners }}"
-        cc: "{{ biz_owners }}"
+    # - name: Send one email per group using mail
+    #   ansible.builtin.mail:
+    #     host: localhost
+    #     subject: Ansible-report
+    #     body: Here is the list of servers for the {{ group_names }} group
+    #     to: "{{ tech_owners }}"
+    #     cc: "{{ biz_owners }}"
