@@ -1,7 +1,7 @@
 ---
 - name: Send email
   hosts: localhost
-  gather_facts: no
+  gather_facts: false
   vars:
     group_name: "{{ item.0 }}"
     group_hosts: "{{ item.1.ansible_facts.grouped_hosts[group_name] }}"
