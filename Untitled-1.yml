@@ -1,0 +1,20 @@
+---
+- name: Email me when something happens
+  hosts: all
+  vars:
+    tech_owners: "{{ tech_owners }}"
+    biz_owners: "{{ biz_owners }}"
+  tasks:
+    - name: Group hosts based on their it_service value
+      ansible.builtin.group_by:
+        key: "{{ _key_ }}"
+      loop: "{{ groups['all'] |flatten(levels=1) }}"
+    - name: Print groups
+      ansible.builtin.debug:
+        msg: "{{ groups }}"
+    - name: Send one email per group using mail module
+      community.general.mail:
+        subject: Ansible-report
+        body: Here is the list of servers for the {{ group_names }} group
+        to: "{{ tech_owners }}"
+        cc: "{{ biz_owners }}"
