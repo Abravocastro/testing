@@ -1,6 +1,7 @@
 Add-Type -AssemblyName System.DirectoryServices.AccountManagement
 # Lista de cuentas: dominio, usuario, contraseña antigua, nueva
 $cuentas = Import-Csv "usuarios.csv"
+# filepath: untitled:Untitled-1
 
 foreach ($cuenta in $cuentas) {
     $contextType = [System.DirectoryServices.AccountManagement.ContextType]::Domain
