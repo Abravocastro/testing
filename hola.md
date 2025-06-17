@@ -1,16 +1,15 @@
 Add-Type -AssemblyName System.DirectoryServices.AccountManagement
 # Lista de cuentas: dominio, usuario, contraseña antigua, nueva
 $cuentas = Import-Csv "usuarios.csv"
-# filepath: untitled:Untitled-1
 
 foreach ($cuenta in $cuentas) {
     $contextType = [System.DirectoryServices.AccountManagement.ContextType]::Domain
 
     # Check for empty domain or user
-    if ([string]::IsNullOrWhiteSpace($cuenta.Dominio) -or [string]::IsNullOrWhiteSpace($cuenta.Usuario)) {
-        Write-Warning "Dominio o usuario vacío para una de las cuentas."
-        continue
-    }
+        if ([string]::IsNullOrWhiteSpace($cuenta.Dominio) -or [string]::IsNullOrWhiteSpace($cuenta.Usuario)) {
+            Write-Warning "Dominio o usuario vacío: $($cuenta | ConvertTo-Json)"
+            continue
+        }
 
     try {
         $context = New-Object System.DirectoryServices.AccountManagement.PrincipalContext($contextType, $cuenta.Dominio)
